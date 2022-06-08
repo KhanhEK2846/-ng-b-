@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+int x = 0;
+void* PROCESS_A()
+{
+	while (1)
+	{
+		x = x + 1;
+		if (x == 20)
+		{
+			x = 0;
+		}
+		printf("PROCESS A: x = %d\n", x);
+	}
+}
+void* PROCESS_B()
+{
+	while (1)
+	{
+		x = x + 1;
+		if (x == 20)
+		{
+			x = 0;
+		}
+		printf("PROCESS B: x = %d\n", x);
+	
+	}
+}
+void main()
+{
+	pthread_t th1, th2;
+	pthread_create(&th1, NULL, &PROCESS_A, NULL);
+	pthread_create(&th2, NULL, &PROCESS_B, NULL);;
+	while (1);
+}

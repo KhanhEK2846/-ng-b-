@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+sem_t sem_1, sem_2;
+int x = 0;
+pthread_mutex_t mutex;
+void* PROCESS_A()
+{
+	while (1)
+	{
+		pthread_mutex_lock(&mutex);
+		x++;
+		if (x == 20)
+		{
+			x = 0;
+		}
+		printf("PROCESS A: x = %d\n", x);
+		pthread_mutex_unlock(&mutex);
+		
+	}
+}
+void* PROCESS_B()
+{
+	while (1)
+	{
+		pthread_mutex_lock(&mutex);
+		x++;
+		if (x == 20)
+		{
+			x = 0;
+		}
+		printf("PROCESS B: x = %d\n", x);
+		pthread_mutex_unlock(&mutex);
+	}
+}
+void main()
+{
+	pthread_mutex_init(&mutex, NULL);
+	pthread_t th1, th2;
+	pthread_create(&th1, NULL, &PROCESS_A, NULL);
+	pthread_create(&th2, NULL, &PROCESS_B, NULL);
+	while (1);
+}
